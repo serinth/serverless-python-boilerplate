@@ -15,6 +15,13 @@ Boilerplate includes:
 - NPM and Node
 - AWS Account
 
+# Unit Tests
+Use https://nose.readthedocs.io/en/latest/ as the runner
+```bash
+pipenv install nose --dev
+nosetests
+```
+
 # DynamoDB Locally
 By default, the pynamodb classes point to `localhost:8000`. These need to be overwritten when the function runs. Do not specify read and write capacity limits on the classes themselves because that will be handled in the infrastructure code.
 
