@@ -5,3 +5,18 @@ pythonRequirements:
 stage: ${opt:stage, self:provider.stage}
 appName: MY-APP-NAME
 apiVersion: v1
+
+userpoolId:
+  dev: ""
+  test: ""
+  stage: ""
+appClientId:
+  dev: ""
+  test: ""
+  stage: ""
+logLevel:
+  local: DEBUG
+  dev: DEBUG
+  test: DEBUG
+  stage: WARNING
+  prod: WARNING

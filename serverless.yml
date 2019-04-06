@@ -12,10 +12,14 @@ provider:
   environment:
     REGION: ${self:provider.region}
     STAGE: ${self:custom.stage}
+    USER_POOL_ID: ${self:custom.userpoolId.${self:custom.stage}}
+    APP_CLIENT_ID: ${self:custom.appClientId.${self:custom.stage}}
+    LOG_LEVEL: ${self:custom.logLevel.${self:custom.stage}}
   tags:
     appName: ${self:custom.appName}
     stage: ${self:custom.stage}
     owner: Tony Truong
+
 
 package: ${file(resources/package.yml)}
 
