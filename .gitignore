@@ -1,0 +1,9 @@
+.serverless
+.env
+.vscode
+.DS_Store
+node_modules
+.idea
+local.db
+__pycache__/
+*.py[cod]

@@ -1,0 +1,27 @@
+service: pf-core
+frameworkVersion: ">=1.40.0 <2.0.0"
+
+custom: ${file(resources/customs.yml)}
+
+provider:
+  name: aws
+  runtime: python3.7
+  stage: dev
+  region: ap-southeast-2
+  memorySize: 128
+  environment:
+    REGION: ${self:provider.region}
+    STAGE: ${self:custom.stage}
+  tags:
+    appName: ${self:custom.appName}
+    stage: ${self:custom.stage}
+    owner: Tony Truong
+
+package: ${file(resources/package.yml)}
+
+functions:
+  - ${file(resources/authenticators.yml)}
+
+plugins:
+  - serverless-python-requirements
+  - serverless-iam-roles-per-function

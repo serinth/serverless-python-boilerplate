@@ -1,0 +1,17 @@
+basicAuth:
+  handler: auth/basicAuth.main
+customGroupAuth:
+  handler: auth/customGroupAuth.main
+merchantPostConfirmation:
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - iam:AddUserToGroup
+        - iam:GetGroup
+      Resource: "arn:aws:iam::*:group/merchant-group"
+        
+  handler: auth/customGroupPostConfirmation.main
+  events:
+    - cognitoUserPool:
+        pool: MyUserPool
+        trigger: PostConfirmation

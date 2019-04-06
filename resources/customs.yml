@@ -1,0 +1,7 @@
+pythonRequirements:
+  dockerizePip: non-linux
+  useDownloadCache: true
+  useStaticCache: true
+stage: ${opt:stage, self:provider.stage}
+appName: MY-APP-NAME
+apiVersion: v1

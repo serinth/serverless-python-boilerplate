@@ -1,0 +1,14 @@
+include:
+  - auth
+  - api
+  - logging
+
+exclude:
+  - README.md
+  - Pipfile
+  - .env
+  - .gitignore
+  - .git
+  - serverless.yml
+  - scripts/**
+  - local.db/**
