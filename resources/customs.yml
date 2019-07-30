@@ -6,6 +6,16 @@ stage: ${opt:stage, self:provider.stage}
 appName: MY-APP-NAME
 apiVersion: v1
 
+# On AWS buy the domain and verify it. Use ACM to generate a wildcard cert before running the plugin.
+# endpoint will be https://subdomain.mydomain.com/api/...path
+customDomain:
+  domainName: <SUBDOMAIN TO BE CREATED>.mydomain.com
+  stage: ${opt:stage, self:provider.stage}
+  basePath: api
+  createRoute53Record: true
+  certificateName: '*.mydomain.com'
+  endpointType: 'regional'
+
 userpoolId:
   dev: ""
   test: ""

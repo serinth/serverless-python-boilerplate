@@ -7,10 +7,9 @@ Boilerplate includes:
     - post confirmation hook and adding user to group
 - Logging
 - Common API responses
-- DynamoDB Example
 
 # Requirements
-- Serverless Framework
+- [Serverless Framework](https://serverless.com)
 - Python 3.7+, I recommend using [Pipenv](https://github.com/pypa/pipenv)
 - NPM and Node
 - AWS Account
@@ -36,4 +35,19 @@ dynamodb.ap-southeast-2.amazonaws.com
 ## Creating Tables Locally
 ```bash
 pipenv run python -m scripts.createTables
+```
+
+# Deployment
+
+Ensure the domain is purchased and verified. Then create a wildcard certificate in ACM.
+After that is done, run:
+```bash
+serverless create_domain
+```
+
+API Gateway should show a new custom domain. You won't need to run the above command again.
+
+Then run:
+```bash
+serverless deploy
 ```

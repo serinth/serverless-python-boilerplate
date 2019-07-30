@@ -1,4 +1,4 @@
-service: pf-core
+service: myapp
 frameworkVersion: ">=1.40.0 <2.0.0"
 
 custom: ${file(resources/customs.yml)}
@@ -29,3 +29,4 @@ functions:
 plugins:
   - serverless-python-requirements
   - serverless-iam-roles-per-function
+  - serverless-domain-manager
