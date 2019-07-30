@@ -13,6 +13,7 @@ Boilerplate includes:
 - Python 3.7+, I recommend using [Pipenv](https://github.com/pypa/pipenv)
 - NPM and Node
 - AWS Account
+- Docker
 
 # Unit Tests
 Use https://nose.readthedocs.io/en/latest/ as the runner
