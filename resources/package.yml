@@ -12,3 +12,4 @@ exclude:
   - serverless.yml
   - scripts/**
   - local.db/**
+  - infrastructure

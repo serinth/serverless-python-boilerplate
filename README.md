@@ -85,7 +85,7 @@ The terraform scripts should output the security group ids for the VPC and subne
 
 ## 2. Deploy
 
-Replace this section in `serverless.yaml`:
+Uncomment and replace the info in this section of `serverless.yaml`:
 ```yaml
   vpc:
     securityGroupIds:
@@ -95,7 +95,8 @@ Replace this section in `serverless.yaml`:
     - <private subnet id 2>
 ```
 
-Ensure the domain is purchased and verified. Then create a wildcard certificate in ACM.
+Ensure the domain is purchased and verified. Then create a wildcard certificate in ACM much like the Default deployment method.
+
 After that is done, run:
 ```bash
 serverless create_domain
