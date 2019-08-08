@@ -1,4 +1,4 @@
-service: myapp
+service: <MyProject>
 frameworkVersion: ">=1.40.0 <2.0.0"
 
 custom: ${file(resources/customs.yml)}
@@ -19,6 +19,12 @@ provider:
     appName: ${self:custom.appName}
     stage: ${self:custom.stage}
     owner: Tony Truong
+  vpc:
+    securityGroupIds:
+    - <VPC security group id>
+    subnetIds:
+    - <private subnet id 1>
+    - <private subnet id 2>
 
 
 package: ${file(resources/package.yml)}
