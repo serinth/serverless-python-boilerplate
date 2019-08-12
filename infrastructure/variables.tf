@@ -1,6 +1,12 @@
 variable "project" {
     description = "Project Name"
 }
+
+variable "domain" {
+    description = "TLD of the project"
+}
+
+#------------ NETWORKING ------------
 variable "cidr" {
     description = "VPC CIDR"
     default = "10.0.0.0/16"
@@ -23,6 +29,8 @@ variable "enable_nat_gateway" {
     description = "Default is 1 NAT per subnet. Check documentation for more options."
     default = true
 }
+
+#------------ COGNITO ------------
 variable "enable_cognito_user_pool" {
     description = "set to true if need to create a cognito user pool"
     default = true
@@ -30,7 +38,7 @@ variable "enable_cognito_user_pool" {
 
 variable "enable_cognito_custom_domain" {
     description ="set to true if managing the domain inside AWS otherwise use an ARN and custom generated ACM. By default an amazon domain will be used."
-    default = false
+    default = true
 }
 
 variable "cognito_config" {
@@ -49,3 +57,4 @@ variable "oauth_flows" {
         callback_urls = ["https://mydomain.com.au/callback/login"]
     }
 }
+

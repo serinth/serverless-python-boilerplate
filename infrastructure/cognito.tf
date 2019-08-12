@@ -51,16 +51,45 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
     explicit_auth_flows = ["ADMIN_NO_SRP_AUTH"]
 
     allowed_oauth_flows = "${var.oauth_flows["allowed_oauth_scopes"]}"
+    allowed_oauth_flows_user_pool_client = true
     callback_urls = "${var.oauth_flows["callback_urls"]}"
     supported_identity_providers = ["COGNITO"]
 
     allowed_oauth_scopes = ["openid", "email"]
 }
 
-resource "aws_cognito_user_pool_domain" "domain" {
+resource "aws_cognito_user_pool_domain" "aws_domain" {
   domain = "${var.project}-${terraform.workspace}"
   count = "${var.enable_cognito_user_pool && !var.enable_cognito_custom_domain ? 1 : 0}" 
   user_pool_id = "${join("", aws_cognito_user_pool.user_pool.*.id)}"
 }
 
-# TODO Route53, ACM, ACM Validation for Custom Domain
+
+# Custom Domain, Assumes the domain is already purchased in Route53 and has an A record
+data "aws_route53_zone" "domain_zone"{
+    name = "${var.domain}"
+}
+module "acm" {
+    source = "terraform-aws-modules/acm/aws"
+
+    create_certificate = "${var.enable_cognito_custom_domain}"
+
+    domain_name = "${terraform.workspace}.auth.${var.domain}"
+    zone_id = "${data.aws_route53_zone.domain_zone.zone_id}"
+    subject_alternative_names = [
+        "*.${terraform.workspace}.auth.${var.domain}"
+    ]
+
+    tags = {
+        Terraform = "true"
+        Environment = "${terraform.workspace}"
+        Project = "${var.project}"
+    }
+}
+
+resource "aws_cognito_user_pool_domain" "custom_domain" {
+  domain = "${terraform.workspace}.auth.${var.domain}"
+  count = "${var.enable_cognito_user_pool && var.enable_cognito_custom_domain ? 1 : 0}" 
+  user_pool_id = "${join("", aws_cognito_user_pool.user_pool.*.id)}"
+  certificate_arn = "${module.acm.this_acm_certificate_arn}"
+}

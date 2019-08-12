@@ -32,6 +32,10 @@ output "user_pool_client_secret" {
   sensitive = true
 }
 
-output "cognito_domain" {
+output "cognito_aws_domain" {
   value = "${var.enable_cognito_user_pool && !var.enable_cognito_custom_domain ? "https://${var.project}-${terraform.workspace}.auth.${data.aws_region.current.name}.amazoncognito.com" : ""}"
+}
+
+output "custom_domain_certificate_arn" {
+  value = "${var.enable_cognito_user_pool && var.enable_cognito_custom_domain ? module.acm.this_acm_certificate_arn : ""}"
 }
