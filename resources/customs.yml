@@ -17,13 +17,17 @@ customDomain:
   endpointType: 'regional'
 
 userpoolId:
+  local: ""
   dev: ""
   test: ""
   stage: ""
+  prod: ""
 appClientId:
+  local: ""
   dev: ""
   test: ""
   stage: ""
+  prod: ""
 logLevel:
   local: DEBUG
   dev: DEBUG

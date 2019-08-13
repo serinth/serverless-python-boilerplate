@@ -22,15 +22,17 @@ pipenv install nose --dev
 nosetests
 ```
 
-# DynamoDB Locally
-By default, the pynamodb classes point to `localhost:8000`. These need to be overwritten when the function runs. Do not specify read and write capacity limits on the classes themselves because that will be handled in the infrastructure code.
-
-```bash
-npm install -g dynalite
-dynalite --port 8000 --path local.db
-```
 # ENVIRONMENT Variables
-dynamodb.ap-southeast-2.amazonaws.com
+Environment variables are passed through the lambda functions via `serverless.yml` and `customs.yml` depending on the stage set. Override them in these two yaml files.
+
+|Variable|Description|Default|
+|---|---|---|
+|REGION|AWS region|ap-southeast-2|
+|STAGE|One of: local, dev, test, stage, prod|dev|
+|USER_POOL_ID|Cognito user pool ID, will be in the terraform output| - |
+|APP_CLIENT_ID|User pool client id in the terraform output| - |
+|LOG_LEVEL| The logging level| `local`, `dev`, `test` have logging set to `DEBUG`. `stage` and `prod` set to `WARNING`
+
 # Helper Scripts
 
 ## Creating Tables Locally
@@ -66,7 +68,7 @@ This example will create:
 - 2x private subnet
 - a NAT for outgoing calls for the private subnet lambdas (1 nat per subnet)
 - tag all resources
-- optionally provision a Cognito user pool if enabled
+- optionally provision a Cognito user pool if enabled -- see [Cognito Pools](#cognito-pools) below
 
 Initialize Terraform:
 ```bash
@@ -101,4 +103,36 @@ After that is done, run:
 ```bash
 serverless create_domain
 serverless deploy
+```
+
+# Cognito Pools
+
+## Default Domain
+
+You can override the default variable `enable_cognito_user_pool` to `true` if choosing to create a pool. It will create a user pool with implicit and code oauth flows. Ensure that you change the `oauth_flows` variable as well to include the proper domain.
+
+The outputs will give the Cognito endpoint for use in the `/auth` folder functions
+
+## Custom Cognito Domain
+
+By default, `enable_cognito_custom_domain` is set to `false` so you will get an AWS endpoint for the current workspace. Switch this to `true` if you want to attach a custom domain to the user pool. There are a few caveats that come with this option:
+
+1. You need an A record at the root. The root changes if you have multiple dot entries. e.g. dev.auth.mydomain.com, you need an A record for auth.mydomain.com
+
+2. TLS certificates need to sit in `us-east-1` region for legacy reasons as documented by AWS here: https://forums.aws.amazon.com/thread.jspa?messageID=880827
+
+The certificate generated for a custom domain by default has the following name:
+`[workspace].auth.[mydomain]`
+
+With the following 3 additional domains:
+- `*.[workspace].auth.[mydomain]`
+- `.auth.[mydomain]`
+- `*.[mydomain]`
+
+# DynamoDB Locally
+By default, the pynamodb classes point to `localhost:8000`. These need to be overwritten when the function runs. Do not specify read and write capacity limits on the classes themselves because that will be handled in the infrastructure code.
+
+```bash
+npm install -g dynalite
+dynalite --port 8000 --path local.db
 ```

@@ -3,7 +3,7 @@ variable "project" {
 }
 
 variable "domain" {
-    description = "TLD of the project"
+    description = "TLD of the project e.g. mydomain.com. Also modify variable oauth_flows"
 }
 
 #------------ NETWORKING ------------
@@ -33,12 +33,12 @@ variable "enable_nat_gateway" {
 #------------ COGNITO ------------
 variable "enable_cognito_user_pool" {
     description = "set to true if need to create a cognito user pool"
-    default = true
+    default = false
 }
 
 variable "enable_cognito_custom_domain" {
     description ="set to true if managing the domain inside AWS otherwise use an ARN and custom generated ACM. By default an amazon domain will be used."
-    default = true
+    default = false
 }
 
 variable "cognito_config" {
@@ -54,7 +54,7 @@ variable "oauth_flows" {
     type = "map"
     default = {
         allowed_oauth_scopes = ["code", "implicit"]
-        callback_urls = ["https://mydomain.com.au/callback/login"]
+        callback_urls = ["https://mydomain.com.au/login/callback"]
     }
 }
 

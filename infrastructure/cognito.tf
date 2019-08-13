@@ -69,6 +69,10 @@ resource "aws_cognito_user_pool_domain" "aws_domain" {
 data "aws_route53_zone" "domain_zone"{
     name = "${var.domain}"
 }
+
+# It can take up to 30 minutes for AWS to propagate and validate domain
+# ACM certificate also needs to sit in us-east-1
+# https://forums.aws.amazon.com/thread.jspa?messageID=880827
 module "acm" {
     source = "terraform-aws-modules/acm/aws"
 
@@ -77,7 +81,9 @@ module "acm" {
     domain_name = "${terraform.workspace}.auth.${var.domain}"
     zone_id = "${data.aws_route53_zone.domain_zone.zone_id}"
     subject_alternative_names = [
-        "*.${terraform.workspace}.auth.${var.domain}"
+        "*.${terraform.workspace}.auth.${var.domain}",
+        "*.auth.${var.domain}",
+        "*.${var.domain}"
     ]
 
     tags = {

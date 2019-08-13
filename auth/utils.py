@@ -7,7 +7,7 @@ from hmac import compare_digest
 
 
 def get_known_keys(region, userpool_id):
-    keys_url = 'https://cognito-idp.{}.amazonaws.com/{}/.well-known/jwks.json'.format(region, userpool_id)
+    keys_url = f'https://cognito-idp.{region}.amazonaws.com/{userpool_id}/.well-known/jwks.json'
     response = urllib.request.urlopen(keys_url)
     return json.loads(response.read())['keys']
 

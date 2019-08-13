@@ -19,9 +19,9 @@ def main(event, context):
         raise ValueError('could not parse pool, username or sub')
 
     try:
-        response = client.admin_add_user_to_group(UserPoolId=pool_id, Username=username, GroupName=CUSTOM_GROUP )
+        response = client.admin_add_user_to_group(UserPoolId=pool_id, Username=username, GroupName=CUSTOM_GROUP)
     except Exception:
-        raise ValueError('Failed to add {u} to {g}'.format(u=username, g=CUSTOM_GROUP))
+        raise ValueError(f'Failed to add {username} to {CUSTOM_GROUP}')
 
 
 if __name__ == '__main__':

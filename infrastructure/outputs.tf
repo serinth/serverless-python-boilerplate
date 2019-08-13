@@ -1,19 +1,23 @@
-# data "aws_security_groups" "vpc_security_groups" {
-#   filter {
-#     name   = "vpc-id"
-#     values = ["${module.vpc.vpc_id}"]
-#   }
-# }
+data "aws_security_groups" "vpc_security_groups" {
+  filter {
+    name   = "vpc-id"
+    values = ["${module.vpc.vpc_id}"]
+  }
+}
 
-# output "vpc_security_group_ids" {
-#   value = "${data.aws_security_groups.vpc_security_groups}"
-# }
+output "vpc_security_group_ids" {
+  value = "${data.aws_security_groups.vpc_security_groups}"
+}
 
-# output "private_subnet_ids" {
-#   value = "${module.vpc.private_subnets}"
-# }
+output "private_subnet_ids" {
+  value = "${module.vpc.private_subnets}"
+}
 
 data "aws_region" "current" {}
+
+output "cognito_pool_id" {
+  value = "${element(concat(aws_cognito_user_pool.user_pool.*.id, list("")), 0)}"
+}
 
 output "cognito_pool_arn" {
   value = "${element(concat(aws_cognito_user_pool.user_pool.*.arn, list("")), 0)}"
