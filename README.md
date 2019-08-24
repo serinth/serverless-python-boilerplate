@@ -33,13 +33,6 @@ Environment variables are passed through the lambda functions via `serverless.ym
 |APP_CLIENT_ID|User pool client id in the terraform output| - |
 |LOG_LEVEL| The logging level| `local`, `dev`, `test` have logging set to `DEBUG`. `stage` and `prod` set to `WARNING`
 
-# Helper Scripts
-
-## Creating Tables Locally
-```bash
-pipenv run python -m scripts.createTables
-```
-
 # Deployment - Default AWS VPC
 
 Ensure the domain is purchased and verified. Then create a wildcard certificate in ACM.
@@ -128,11 +121,3 @@ With the following 3 additional domains:
 - `*.[workspace].auth.[mydomain]`
 - `.auth.[mydomain]`
 - `*.[mydomain]`
-
-# DynamoDB Locally
-By default, the pynamodb classes point to `localhost:8000`. These need to be overwritten when the function runs. Do not specify read and write capacity limits on the classes themselves because that will be handled in the infrastructure code.
-
-```bash
-npm install -g dynalite
-dynalite --port 8000 --path local.db
-```
