@@ -1,0 +1,27 @@
+connectionManager:
+  handler: websockets/main.connection_manager
+  events:
+    - websocket:
+        route: $connect
+    - websocket:
+        route: $disconnect
+  iamRoleStatements: &iamSocketRole
+    - Effect: Allow
+      Action:
+        - "execute-api:ManageConnections"
+      Resource:
+        - "arn:aws:execute-api:*:*:**/@connections/*"
+defaultMessage:
+  handler: websockets/main.default_message
+  events:
+    - websocket:
+        route: $default
+  iamRoleStatements:
+    <<: *iamSocketRole
+defaultWebsocketExample:
+  handler: websockets/main.echo
+  events:
+    - websocket:
+        route: echo
+  iamRoleStatements:
+    <<: *iamSocketRole

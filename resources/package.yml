@@ -2,6 +2,7 @@ include:
   - auth
   - api
   - logs
+  - websockets
 
 exclude:
   - README.md

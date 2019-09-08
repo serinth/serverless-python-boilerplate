@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 jose = "*"
 python-jose = "*"
+boto3 = "*"
+botocore = "==1.12.224"
 
 [dev-packages]
 pylint = "*"

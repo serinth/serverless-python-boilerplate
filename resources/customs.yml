@@ -1,5 +1,6 @@
 pythonRequirements:
-  dockerizePip: non-linux
+  dockerizePip: non-linux # Change this if running in linux
+  noDeploy: []
   useDownloadCache: true
   useStaticCache: true
 stage: ${opt:stage, self:provider.stage}

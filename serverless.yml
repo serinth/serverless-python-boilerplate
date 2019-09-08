@@ -19,6 +19,8 @@ provider:
     appName: ${self:custom.appName}
     stage: ${self:custom.stage}
     owner: Tony Truong
+  websocketApiName: <MyProject Websocket API name>
+  websocketApiRouteSelectionExpression: $request.body.action
   # -- Uncomment below for VPC and subnets
   # vpc:
   #   securityGroupIds:
@@ -32,6 +34,7 @@ package: ${file(resources/package.yml)}
 
 functions:
   - ${file(resources/authenticators.yml)}
+  - ${file(resources/websockets.yml)}
 
 plugins:
   - serverless-python-requirements

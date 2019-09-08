@@ -1,4 +1,5 @@
 # Serverless Boilerplate with Python
+
 Boilerplate includes:
 
 - Cognito Custom Auth (JWTs)
@@ -7,13 +8,25 @@ Boilerplate includes:
     - post confirmation hook and adding user to group
 - Logging
 - Common API responses
+- A Websocket example
 
 # Requirements
+
 - [Serverless Framework](https://serverless.com)
 - Python 3.7+, I recommend using [Pipenv](https://github.com/pypa/pipenv)
 - NPM and Node
 - AWS Account
 - Docker
+
+## Running in Linux/Non-Linux
+
+This framework uses the `serverless-python-requirements` plugin which will use docker to package our application. If using a Mac or Windows edit the `customs.yml` file:
+
+```yaml
+pythonRequirements:
+  dockerizePip: non-linux # Change this if running in linux
+```
+Comment out that line if running in a linux OS.
 
 # Unit Tests
 Use https://nose.readthedocs.io/en/latest/ as the runner
@@ -23,6 +36,7 @@ nosetests
 ```
 
 # ENVIRONMENT Variables
+
 Environment variables are passed through the lambda functions via `serverless.yml` and `customs.yml` depending on the stage set. Override them in these two yaml files.
 
 |Variable|Description|Default|
@@ -53,6 +67,7 @@ serverless deploy
 The infrastructure code here is a bit more secure than using defaults. It also allows us to isolate the lambdas in private subnets and additionally provision databases required in the private subnet as well.
 
 ## 1. Create Infrastructure with Terraform
+
 Instead of using cloudformation inside of the serverless framework, we opt to handle infrastructure code in Terraform for separation of concerns whereas we leave serverless to do more heavy lifting on CI/CD and code organization.
 
 This example will create:
@@ -97,6 +112,27 @@ After that is done, run:
 serverless create_domain
 serverless deploy
 ```
+
+# Websockets
+
+You can test the websocket connection with this sample payload:
+
+*action* is the route, everything else is in the `event.body`
+```json
+{"action": "echo", "sampleItem": "Hello World!"}
+```
+
+Connect using wscat:
+```bash
+npm i wscat
+wscat -c <MyEndpoint>
+```
+
+The endpoint is different depending if you used a custom domain or not. Check the output of serverless deploy for the URL.
+
+**Note**: At the time of writing AWS was using an outdated version of botocore which is why we fixed a working version in the Pipfile. If this doesn't work for you, generate a requirements.txt to fix the versions of what you need. We will revisit and remove that at a later date.
+
+Check out this [stackoverflow post](https://stackoverflow.com/questions/55295305/aws-boto3-unknownserviceerror-unknown-service-apigatewaymanagementapi)
 
 # Cognito Pools
 
