@@ -1,7 +1,7 @@
 include:
   - auth
   - api
-  - logging
+  - logs
 
 exclude:
   - README.md
