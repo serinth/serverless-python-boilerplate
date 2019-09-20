@@ -32,6 +32,9 @@ provider:
 
 package: ${file(resources/package.yml)}
 
+resources:
+  - ${file(resources/api_gateway_errors.yml)}
+
 functions:
   - ${file(resources/authenticators.yml)}
   - ${file(resources/websockets.yml)}
