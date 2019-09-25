@@ -34,7 +34,7 @@ def echo(event, context):
     
     data = json.loads(event.get('body'))
     client.post_to_connection(ConnectionId=connection_id, Data=json.dumps(data).encode('utf-8'))
-    return generate_response('done'), HTTPStatus.OK)
+    return generate_response('done', HTTPStatus.OK)
 
 if __name__ == '__main__':
     connection_manager(None, None)
