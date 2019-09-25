@@ -2,6 +2,7 @@ from api.responses import generate_error_response, ok_response, generate_respons
 from http import HTTPStatus
 from logs.logging import get_logger
 import boto3
+import json
 
 log = get_logger('socket_manager_logger')
 
