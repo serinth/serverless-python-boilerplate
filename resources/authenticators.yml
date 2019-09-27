@@ -1,4 +1,4 @@
-basicAuth:
+bearerAuth:
   handler: auth/bearerAuth.main
 customGroupAuth:
   handler: auth/customGroupAuth.main
