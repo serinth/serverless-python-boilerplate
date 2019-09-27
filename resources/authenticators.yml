@@ -1,5 +1,5 @@
 basicAuth:
-  handler: auth/basicAuth.main
+  handler: auth/bearerAuth.main
 customGroupAuth:
   handler: auth/customGroupAuth.main
 merchantPostConfirmation:
