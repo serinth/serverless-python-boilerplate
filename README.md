@@ -157,3 +157,6 @@ With the following 3 additional domains:
 - `*.[workspace].auth.[mydomain]`
 - `.auth.[mydomain]`
 - `*.[mydomain]`
+
+*Note
+There is an open issue with DNS validation [here](https://github.com/terraform-providers/terraform-provider-aws/issues/8597)

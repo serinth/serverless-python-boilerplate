@@ -70,32 +70,53 @@ data "aws_route53_zone" "domain_zone"{
     name = "${var.domain}"
 }
 
-# It can take up to 30 minutes for AWS to propagate and validate domain
-# ACM certificate also needs to sit in us-east-1
-# https://forums.aws.amazon.com/thread.jspa?messageID=880827
-module "acm" {
-    source = "terraform-aws-modules/acm/aws"
-
-    create_certificate = "${var.enable_cognito_custom_domain}"
-
+resource "aws_acm_certificate" "cert" {
     domain_name = "${terraform.workspace}.auth.${var.domain}"
-    zone_id = "${data.aws_route53_zone.domain_zone.zone_id}"
+    validation_method= "DNS"
+    provider = "aws.east1"
+
     subject_alternative_names = [
         "*.${terraform.workspace}.auth.${var.domain}",
         "*.auth.${var.domain}",
         "*.${var.domain}"
     ]
-
-    tags = {
-        Terraform = "true"
-        Environment = "${terraform.workspace}"
-        Project = "${var.project}"
-    }
 }
 
+locals {
+    dvo = "${flatten(aws_acm_certificate.cert.*.domain_validation_options)}"
+}
+
+resource "aws_route53_record" "cert_validation" {
+    count = 3 #the subject alt names count
+    zone_id = "${data.aws_route53_zone.domain_zone.zone_id}"
+    ttl = 60
+    name = "${lookup(local.dvo[count.index], "resource_record_name")}"
+    type = "${lookup(local.dvo[count.index], "resource_record_type")}"
+    records = ["${lookup(local.dvo[count.index], "resource_record_value")}"]
+    allow_overwrite = true
+}
+
+# Open Issue if it throws can't find DNS record error:
+# https://github.com/terraform-providers/terraform-provider-aws/issues/8597
+# resource "aws_acm_certificate_validation" "cert" {
+#     provider = "aws.east1"
+#     count = 3
+#     certificate_arn = "${element(aws_acm_certificate.cert.*.arn, count.index)}"
+#     validation_record_fqdns = "${aws_route53_record.cert_validation.*.fqdn}"
+# }
+
+
+# resource "aws_cognito_user_pool_domain" "custom_domain" {
+#   domain = "${terraform.workspace}.auth.${var.domain}"
+#   count = "${var.enable_cognito_user_pool && var.enable_cognito_custom_domain ? 1 : 0}" 
+#   user_pool_id = "${join("", aws_cognito_user_pool.user_pool.*.id)}"
+#   certificate_arn = "${join("", aws_acm_certificate_validation.cert.*.certificate_arn)}"
+# }
+
+# This is the workaround until the above issue gets resolved.
 resource "aws_cognito_user_pool_domain" "custom_domain" {
   domain = "${terraform.workspace}.auth.${var.domain}"
   count = "${var.enable_cognito_user_pool && var.enable_cognito_custom_domain ? 1 : 0}" 
   user_pool_id = "${join("", aws_cognito_user_pool.user_pool.*.id)}"
-  certificate_arn = "${module.acm.this_acm_certificate_arn}"
+  certificate_arn = "${join("", aws_acm_certificate.cert.*.arn)}"
 }
