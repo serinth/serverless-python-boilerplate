@@ -1,5 +1,5 @@
 import time
-import urllib
+import urllib.request as request
 import json
 from jose import jwk, jwt
 from jose.utils import base64url_decode
@@ -8,7 +8,7 @@ from hmac import compare_digest
 
 def get_known_keys(region, userpool_id):
     keys_url = f'https://cognito-idp.{region}.amazonaws.com/{userpool_id}/.well-known/jwks.json'
-    response = urllib.request.urlopen(keys_url)
+    response = request.urlopen(keys_url)
     return json.loads(response.read())['keys']
 
 
