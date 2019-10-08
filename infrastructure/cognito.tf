@@ -50,7 +50,7 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
     generate_secret     = true
     explicit_auth_flows = ["ADMIN_NO_SRP_AUTH"]
 
-    allowed_oauth_flows = "${var.oauth_flows["allowed_oauth_scopes"]}"
+    allowed_oauth_flows = "${var.oauth_flows["flows"]}"
     allowed_oauth_flows_user_pool_client = true
     callback_urls = "${var.oauth_flows["callback_urls"]}"
     supported_identity_providers = ["COGNITO"]

@@ -53,7 +53,7 @@ variable "cognito_config" {
 variable "oauth_flows" {
     type = "map"
     default = {
-        allowed_oauth_scopes = ["code", "implicit"]
+        flows = ["code", "implicit"]
         callback_urls = ["https://mydomain.com.au/login/callback"]
     }
 }
