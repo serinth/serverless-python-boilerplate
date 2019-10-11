@@ -20,7 +20,7 @@ def get_log_level():
     return level_to_value.get(log_level_name, logging.DEBUG)
 
 
-def get_logger(module_name):
+def get_logger(module_name, event):
     log_level = get_log_level()
 
     handler = logging.StreamHandler(stdout)
@@ -35,6 +35,11 @@ def get_logger(module_name):
     log.setLevel(log_level)
     log.addHandler(handler)
 
-    log_adapter = logging.LoggerAdapter(log, {'correlationId': str(uuid.uuid4())})
+    try:
+        existing_correlation_id = event.get('headers').get('x-correlation-id', None)
+    except:
+        existing_correlation_id = None
+
+    log_adapter = logging.LoggerAdapter(log, {'correlationId': str(uuid.uuid4()) if existing_correlation_id is None else existing_correlation_id})
 
     return log_adapter

@@ -4,12 +4,11 @@ from logs.logging import get_logger
 import boto3
 import json
 
-log = get_logger('socket_manager_logger')
-
 CONNECT = 'CONNECT'
 DISCONNECT = 'DISCONNECT'
 
 def connection_manager(event, context):
+    log = get_logger('socket_manager_logger', event)
     connection_id = event["requestContext"].get("connectionId")
     
     if event["requestContext"]["eventType"] == CONNECT:
