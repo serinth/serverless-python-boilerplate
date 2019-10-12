@@ -54,7 +54,7 @@ variable "oauth_flows" {
     type = "map"
     default = {
         flows = ["code", "implicit"]
-        callback_urls = ["https://mydomain.com.au/login/callback"]
+        callback_urls = ["http://localhost/login/callback", "https://mydomain.com.au/login/callback"]
     }
 }
 

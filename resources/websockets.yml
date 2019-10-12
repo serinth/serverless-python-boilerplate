@@ -5,7 +5,7 @@ connectionManager:
         route: $connect
     - websocket:
         route: $disconnect
-  iamRoleStatements: &iamSocketRole
+  iamRoleStatements:
     - Effect: Allow
       Action:
         - "execute-api:ManageConnections"
@@ -17,11 +17,19 @@ defaultMessage:
     - websocket:
         route: $default
   iamRoleStatements:
-    <<: *iamSocketRole
+    - Effect: Allow
+      Action:
+        - "execute-api:ManageConnections"
+      Resource:
+        - "arn:aws:execute-api:*:*:**/@connections/*"
 defaultWebsocketExample:
   handler: websockets/main.echo
   events:
     - websocket:
         route: echo
   iamRoleStatements:
-    <<: *iamSocketRole
+    - Effect: Allow
+      Action:
+        - "execute-api:ManageConnections"
+      Resource:
+        - "arn:aws:execute-api:*:*:**/@connections/*"
