@@ -3,7 +3,7 @@
 Boilerplate includes:
 
 - Cognito Custom Auth (JWTs)
-    - basic auth
+    - bearer auth
     - group auth
     - post confirmation hook and adding user to group
 - Logging
