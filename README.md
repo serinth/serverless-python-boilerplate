@@ -1,3 +1,5 @@
+Consider the [Fast Start Serverless Python Apps](https://www.udemy.com/course/fast-start-python-serverless-apps-with-aws-and-terraform/?referralCode=2E79487F0D5A4F12F634) course for a beginner introduction.
+
 # Serverless Boilerplate with Python
 
 Boilerplate includes:
