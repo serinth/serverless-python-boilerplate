@@ -72,9 +72,9 @@ def verify_and_get_claims(event, keys, app_client_id):
     return claims
 
 
-def get_sub(awsRequestEvent: str):
-     cognito_auth_provider = awsRequestEvent.get('requestContext').get('identity').get('cognitoAuthenticationProvider')
-     return cognito_auth_provider.split(':CognitoSignIn:')[1]
+# https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
+def get_sub(awsRequestEvent: dict):
+     return awsRequestEvent.get('requestContext').get('authorizer').get('principalId')
 
 
 def generate_lambda_invoke_policy(principal_id, effect, resource):
