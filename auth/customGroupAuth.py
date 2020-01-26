@@ -11,7 +11,7 @@ def main(event, context):
     claims = verify_and_get_claims(event, keys, app_client_id)
     
     if type(claims) is bool and claims is False:
-        raise("Unauthorized")
+        raise Exception("Unauthorized")
 
     if CUSTOM_GROUP in claims["cognito:groups"]:
         return generate_lambda_invoke_policy(claims['sub'], "Allow", event['methodArn'])
