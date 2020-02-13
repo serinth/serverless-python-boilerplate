@@ -34,7 +34,7 @@ Comment out that line if running in a linux OS.
 Use https://nose.readthedocs.io/en/latest/ as the runner
 ```bash
 pipenv install nose --dev
-nosetests
+pipenv run nosetests
 ```
 
 # ENVIRONMENT Variables
