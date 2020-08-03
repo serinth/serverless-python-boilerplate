@@ -6,6 +6,7 @@
   "devDependencies": {
     "serverless-domain-manager": "^3.2.6",
     "serverless-iam-roles-per-function": "^1.0.4",
-    "serverless-python-requirements": "^4.2.4"
+    "serverless-python-requirements": "^4.2.4",
+    "serverless-prune-plugin": "^1.4.3"
   }
 }

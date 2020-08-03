@@ -115,6 +115,13 @@ serverless create_domain
 serverless deploy
 ```
 
+### Pruning old functions
+
+Serverless Framework keeps all deployed versions. Use the [prune plugin](https://github.com/claygregory/serverless-prune-plugin) to keep the latest *N* versions:
+```bash
+serverless prune -n <number of versions to keep>
+```
+
 # Websockets
 
 You can test the websocket connection with this sample payload:
